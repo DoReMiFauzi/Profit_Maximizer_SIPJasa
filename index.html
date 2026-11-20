@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profit Maximizer — Paket Berlangganan &amp; Bundling Rumah Tangga SIPJasa</title>
+  <!-- Memuat Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Memuat Font Plus Jakarta Sans dari Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            sip: {
+              navy: '#0f172a',
+              royal: '#1a66ff',
+              royalDark: '#004ce6',
+              gold: '#facc15',
+              goldDeep: '#eab308',
+              emerald: '#10b981',
+              bgTop: '#f4f8ff',
+            },
+          },
+          boxShadow: {
+            soft: '0 22px 48px -14px rgba(15, 23, 42, 0.12)',
+            card: '0 6px 24px -4px rgba(15, 23, 42, 0.05)',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* Latar belakang gradien biru muda lembut (#f4f8ff) ke putih (#ffffff) */
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(180deg, #f4f8ff 0%, #f8fbff 38%, #ffffff 100%);
+      color: #0f172a;
+    }
+
+    .hero-gradient-bg {
+      background:
+        radial-gradient(circle at 12% 16%, rgba(26, 102, 255, 0.08) 0%, rgba(244, 248, 255, 0) 46%),
+        radial-gradient(circle at 88% 12%, rgba(250, 204, 21, 0.14) 0%, rgba(244, 248, 255, 0) 42%),
+        linear-gradient(180deg, #f4f8ff 0%, #ffffff 100%);
+    }
+
+    /* Stabilo kuning keemasan (#facc15) untuk sorotan utama */
+    .marker-gold {
+      display: inline-block;
+      background: linear-gradient(180deg, rgba(250, 204, 21, 0.22) 0%, rgba(250, 204, 21, 0.96) 14%, #facc15 100%);
+      color: #0f172a;
+      padding: 0.04em 0.36em 0.08em;
+      border-radius: 0.5rem;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    /* Kustomisasi slider rentang untuk kalkulator penghematan */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 0.5rem;
+      border-radius: 9999px;
+      background: #dbeafe;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      margin-top: -6px;
+      height: 1.25rem;
+      width: 1.25rem;
+      border-radius: 9999px;
+      background: #1a66ff;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 0.5rem;
+      border-radius: 9999px;
+      background: #dbeafe;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      height: 1.25rem;
+      width: 1.25rem;
+      border-radius: 9999px;
+      background: #1a66ff;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-yellow-200 selection:text-[#0f172a] overflow-x-hidden">
+
+  <!-- 1. HEADER & NAVIGASI -->
+  <header class="sticky top-0 z-40 w-full bg-[#f4f8ff]/90 backdrop-blur-md border-b border-[#e2e8f0]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-[74px] gap-3">
+        <!-- Brand Logo SIPJasa -->
+        <a href="#top" class="flex items-center gap-3 group focus:outline-none shrink-0">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#facc15] border border-[#eab308]/50 flex items-center justify-center text-[#0f172a] shadow-2xs group-hover:bg-[#eab308] transition">
+            <!-- Ikon Rumah & Kunci Pas -->
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 10.5L12 3l9 7.5" />
+              <path d="M5 9.5V20a1 1 0 001 1h5.5" />
+              <path d="M19 9.5V13" />
+              <path d="M17.2 14.8a2.6 2.6 0 00-3.1 3.1l-2.6 2.6a1.1 1.1 0 001.6 1.6l2.6-2.6a2.6 2.6 0 003.1-3.1l-1.5 1.5-1.1-1.1 1.5-1.5z" />
+            </svg>
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span class="font-extrabold text-xl sm:text-[22px] tracking-tight">
+              <span class="text-[#0f172a]">SIP</span><span class="text-[#1a66ff]">Jasa</span>
+            </span>
+            <span class="text-[11px] sm:text-xs font-medium text-slate-500 hidden sm:block">
+              Hubungkan Kebutuhan, Temukan Solusinya
+            </span>
+          </div>
+        </a>
+
+        <!-- Navigasi Desktop -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-700" aria-label="Navigasi Profit Maximizer">
+          <a href="#paket-berlangganan" class="hover:text-[#1a66ff] transition">Paket Bulanan</a>
+          <a href="#kalkulator-hemat" class="hover:text-[#1a66ff] transition">Kalkulator Hemat</a>
+          <a href="#keunggulan-bundling" class="hover:text-[#1a66ff] transition">Benefit &amp; Prioritas</a>
+        </nav>
+
+        <!-- Badge Kepercayaan Hijau Emerald -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-emerald-200 text-[#10b981] text-xs font-bold shadow-2xs shrink-0">
+          <svg class="w-4 h-4 text-[#10b981] shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <span>100% Mitra Terverifikasi Admin</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- 2. HERO SECTION (FOKUS PROFIT MAXIMIZER) -->
+    <section class="hero-gradient-bg pt-10 pb-16 sm:pt-14 sm:pb-20 border-b border-[#e2e8f0]">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-9 lg:gap-10 items-start">
+
+          <!-- Kolom Kiri (7 Kolom) -->
+          <div class="lg:col-span-7">
+            <!-- Badge Navy -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0f172a] text-white text-xs font-bold tracking-wide shadow-2xs mb-5">
+              <span class="w-2 h-2 rounded-full bg-[#facc15]"></span>
+              <span>PROFIT MAXIMIZER &bull; LANGGANAN RUTIN &amp; BUNDLING</span>
+            </div>
+
+            <!-- Headline Utama -->
+            <h1 class="text-3xl sm:text-4xl lg:text-[43px] font-extrabold text-[#0f172a] leading-[1.16] tracking-tight">
+              Perawatan Rumah Rutin &amp; Multi-Layanan Lebih Hemat hingga
+              <span class="marker-gold">35% Setiap Bulan!</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
+              Kelola pemeliharaan rumah secara teratur untuk <strong class="text-[#0f172a] font-bold">perawatan AC, pembersihan rumah, perbaikan pipa/kran mampet, dan pertukangan ringan</strong> dalam satu paket bulanan dengan prioritas jadwal, teknisi terverifikasi, dan biaya yang jauh lebih efisien dibanding memesan satuan.
+            </p>
+
+            <!-- 3 Poin Nilai Jangka Panjang -->
+            <div class="mt-7 space-y-3.5">
+              <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-[#e2e8f0] shadow-card">
+                <div class="w-10 h-10 rounded-full bg-[#0f172a] text-[#facc15] flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-sm sm:text-base font-extrabold text-[#0f172a]">
+                    Prioritas Jadwal &amp; Koordinasi Cepat
+                  </h2>
+                  <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+                    Slot kunjungan prioritas untuk perawatan berkala maupun kebutuhan darurat pipa mampet, AC bermasalah, atau perbaikan ringan.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-[#e2e8f0] shadow-card">
+                <div class="w-10 h-10 rounded-full bg-[#0f172a] text-[#facc15] flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-sm sm:text-base font-extrabold text-[#0f172a]">
+                    Teknisi Dedikasi &amp; Terverifikasi Admin
+                  </h2>
+                  <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+                    Didukung mitra yang identitas dan layanannya telah diverifikasi Admin SIPJasa, dengan kontinuitas tim yang lebih mengenal kondisi rumah Anda.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-[#e2e8f0] shadow-card">
+                <div class="w-10 h-10 rounded-full bg-[#0f172a] text-[#facc15] flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-sm sm:text-base font-extrabold text-[#0f172a]">
+                    Bundling Multi-Layanan Sekali Rencana
+                  </h2>
+                  <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+                    Gabungkan pembersihan rumah, perawatan AC, perbaikan pipa/kran mampet, dan pertukangan ringan tanpa biaya kunjungan terpisah yang berulang.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan (5 Kolom): Kartu Pemilih Paket Interaktif (Tanpa Form / Modal) -->
+          <div class="lg:col-span-5">
+            <div class="rounded-3xl bg-white border-2 border-[#0f172a] shadow-soft overflow-hidden">
+              <!-- Top Bar Navy -->
+              <div class="px-5 py-3.5 bg-[#0f172a] text-white flex items-center justify-between gap-2">
+                <span class="text-xs font-bold tracking-wide flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-[#facc15]"></span>
+                  Konfigurator Paket Langganan
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#facc15] text-[#0f172a] text-[11px] font-extrabold">
+                  HEMAT HINGGA 35%
+                </span>
+              </div>
+
+              <div class="p-5 sm:p-6">
+                <h2 class="text-lg sm:text-xl font-extrabold text-[#0f172a]">
+                  Pilih Tingkatan Paket Bulanan
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                  Klik tab paket untuk melihat rincian cakupan, benefit bundling, dan estimasi nilai tahunan.
+                </p>
+
+                <!-- Tab Pemilih Paket Interaktif -->
+                <div class="grid grid-cols-3 gap-2 mt-4 mb-4" role="tablist" aria-label="Pilih Paket Profit Maximizer">
+                  <button
+                    type="button"
+                    data-hero-tier="silver"
+                    aria-selected="false"
+                    class="hero-tier-btn px-2.5 py-2.5 rounded-xl text-xs font-bold bg-[#f4f8ff] text-[#0f172a] border border-[#e2e8f0] hover:border-[#1a66ff] transition cursor-pointer text-center"
+                  >
+                    Silver<br /><span class="text-[11px] font-semibold text-slate-500">Rp 399rb/bln</span>
+                  </button>
+                  <button
+                    type="button"
+                    data-hero-tier="gold"
+                    aria-selected="true"
+                    class="hero-tier-btn px-2.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#1a66ff] text-white border border-[#1a66ff] shadow-2xs transition cursor-pointer text-center"
+                  >
+                    Gold<br /><span class="text-[11px] font-semibold opacity-95">Rp 499rb/bln</span>
+                  </button>
+                  <button
+                    type="button"
+                    data-hero-tier="platinum"
+                    aria-selected="false"
+                    class="hero-tier-btn px-2.5 py-2.5 rounded-xl text-xs font-bold bg-[#f4f8ff] text-[#0f172a] border border-[#e2e8f0] hover:border-[#1a66ff] transition cursor-pointer text-center"
+                  >
+                    Platinum<br /><span class="text-[11px] font-semibold text-slate-500">Rp 799rb/bln</span>
+                  </button>
+                </div>
+
+                <!-- Panel Detail Paket Aktif -->
+                <div class="rounded-2xl bg-[#f4f8ff] border border-blue-100 p-4 space-y-3">
+                  <div class="flex items-start justify-between gap-3">
+                    <div>
+                      <span id="hero-tier-badge" class="inline-block px-2.5 py-0.5 rounded-full bg-white border border-blue-200 text-[#1a66ff] text-[11px] font-bold">
+                        Home Care Bundle &bull; Paling Populer
+                      </span>
+                      <h3 id="hero-tier-title" class="text-base sm:text-lg font-extrabold text-[#0f172a] mt-1.5">
+                        Paket Gold
+                      </h3>
+                    </div>
+                    <div class="text-right shrink-0">
+                      <span id="hero-tier-price" class="inline-block text-lg font-extrabold text-[#0f172a] bg-[#facc15] px-2.5 py-0.5 rounded-lg">
+                        Rp 499.000
+                      </span>
+                      <span class="block text-[11px] text-slate-500 font-semibold mt-0.5">/ bulan</span>
+                    </div>
+                  </div>
+
+                  <ul id="hero-tier-perks" class="space-y-2 text-xs sm:text-sm text-slate-700 pt-1">
+                    <li class="flex items-start gap-2">
+                      <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                      <span><strong>4x Pembersihan Rumah</strong> rutin + <strong>1x Perawatan AC atau Perbaikan Pipa/Kran</strong> per bulan.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                      <span><strong>Bundling Multi-Layanan</strong> (kebersihan, AC, pipa/kran mampet, dan pertukangan ringan).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                      <span><strong>Prioritas Jadwal</strong> &amp; teknisi terverifikasi Admin SIPJasa.</span>
+                    </li>
+                  </ul>
+
+                  <div class="pt-2.5 border-t border-blue-200/70 flex items-center justify-between text-xs">
+                    <span id="hero-tier-savings" class="font-extrabold text-[#10b981]">
+                      Estimasi Hemat hingga Rp 2.340.000 / tahun
+                    </span>
+                    <span class="font-bold text-[#0f172a]">Kontrak Fleksibel</span>
+                  </div>
+                </div>
+
+                <!-- Badge Keamanan & Garansi Ekstra -->
+                <div class="mt-4 rounded-2xl bg-emerald-50/90 border border-emerald-200 p-3.5 flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-xl bg-[#10b981] text-white flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div class="text-xs text-slate-700 leading-relaxed">
+                    <strong class="text-[#0f172a] block">Jaminan Mitra Terverifikasi &amp; Transparansi Biaya</strong>
+                    Setiap mitra diverifikasi Admin SIPJasa; biaya material/sparepart tambahan selalu diinformasikan sebelum pengerjaan.
+                  </div>
+                </div>
+
+                <!-- Tombol Aksi Navigasi ke Kalkulator & Perbandingan -->
+                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <a
+                    href="#kalkulator-hemat"
+                    class="py-3 px-4 rounded-xl bg-[#1a66ff] hover:bg-[#004ce6] text-white font-extrabold text-xs text-center transition flex items-center justify-center gap-1.5"
+                  >
+                    <span>Hitung Penghematan</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </a>
+                  <a
+                    href="#paket-berlangganan"
+                    class="py-3 px-4 rounded-xl bg-[#facc15] hover:bg-[#eab308] text-[#0f172a] font-extrabold text-xs text-center transition flex items-center justify-center gap-1.5"
+                  >
+                    <span>Bandingkan 3 Paket</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TIGA PAKET BERLANGGANAN BULANAN (SILVER, GOLD, PLATINUM) -->
+    <section id="paket-berlangganan" class="py-16 sm:py-20 bg-white border-b border-[#e2e8f0] scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-[#f4f8ff] border border-blue-200 text-[#1a66ff] text-xs font-extrabold uppercase tracking-wider mb-3">
+            Value Ladder Bulanan
+          </span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0f172a] tracking-tight">
+            Pilih Paket <span class="marker-gold">Profit Maximizer</span> Sesuai Ritme Hunian Anda
+          </h2>
+          <p class="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
+            Klik salah satu paket di bawah untuk menyorot pilihan utama dan melihat rincian manfaat berlangganan jangka panjang.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch" id="plan-cards-container">
+          <!-- Paket Silver: Routine Maintenance Plan -->
+          <div
+            role="button"
+            tabindex="0"
+            data-plan="silver"
+            data-plan-label="Paket Silver — Routine Maintenance Plan (Rp 399.000/bulan)"
+            aria-pressed="false"
+            class="plan-card rounded-3xl bg-white border border-[#e2e8f0] hover:border-[#1a66ff] p-6 sm:p-7 shadow-card flex flex-col justify-between cursor-pointer transition text-left"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full bg-[#f4f8ff] text-[#1a66ff] text-xs font-extrabold">
+                  Routine Maintenance Plan
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#10b981] border border-emerald-200 text-[11px] font-extrabold">
+                  Hemat ~17%
+                </span>
+              </div>
+              <h3 class="text-xl font-extrabold text-[#0f172a]">
+                Paket Silver
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Pemeliharaan kebersihan rutin mingguan</p>
+
+              <div class="mt-4 pb-4 border-b border-slate-100">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-2xl sm:text-3xl font-extrabold text-[#0f172a]">Rp 399.000</span>
+                  <span class="text-xs text-slate-500 font-semibold">/ bulan</span>
+                </div>
+                <span class="block text-[11px] text-slate-400 mt-0.5">Setara Rp 4.788.000 / tahun</span>
+              </div>
+
+              <ul class="mt-5 space-y-3 text-xs sm:text-sm text-slate-700">
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>4x Pembersihan Rumah</strong> rutin terjadwal (1x setiap minggu) untuk ruang utama, kamar, dapur &amp; kamar mandi.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>Routine Maintenance Plan</strong> dengan pengingat jadwal berkala yang rapi.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>Prioritas Jadwal</strong> mingguan &amp; mitra terverifikasi identitas oleh Admin.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="plan-status font-bold text-slate-500">Klik untuk pilih paket</span>
+              <span class="text-[#1a66ff] font-bold">Ideal Pembersihan Rutin</span>
+            </div>
+          </div>
+
+          <!-- Paket Gold: Home Care Bundle -->
+          <div
+            role="button"
+            tabindex="0"
+            data-plan="gold"
+            data-plan-label="Paket Gold — Home Care Bundle (Rp 499.000/bulan)"
+            aria-pressed="true"
+            class="plan-card rounded-3xl bg-[#0f172a] text-white border-2 border-[#facc15] ring-4 ring-yellow-400/20 p-6 sm:p-7 shadow-soft flex flex-col justify-between cursor-pointer transition text-left relative"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full bg-[#facc15] text-[#0f172a] text-xs font-extrabold">
+                  MOST POPULAR
+                </span>
+                <span class="text-[11px] font-bold text-[#facc15]">
+                  Home Care Bundle
+                </span>
+              </div>
+              <h3 class="text-xl font-extrabold text-white">
+                Paket Gold
+              </h3>
+              <p class="text-xs text-slate-300 mt-0.5">Bundling pembersihan, AC, pipa/kran &amp; pertukangan</p>
+
+              <div class="mt-4 pb-4 border-b border-slate-800">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-2xl sm:text-3xl font-extrabold text-[#facc15]">Rp 499.000</span>
+                  <span class="text-xs text-slate-400 font-semibold">/ bulan</span>
+                </div>
+                <span class="block text-[11px] text-slate-400 mt-0.5">Setara Rp 5.988.000 / tahun</span>
+              </div>
+
+              <ul class="mt-5 space-y-3 text-xs sm:text-sm text-slate-200">
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>4x Pembersihan Rumah</strong> rutin + <strong>1x Perawatan AC atau Perbaikan Pipa/Kran Mampet</strong> setiap bulan.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>Home Care Bundle</strong> lintas kategori (perawatan AC, kebersihan, pipa/kran, dan pertukangan ringan).</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>Teknisi Dedikasi</strong> terverifikasi dengan prioritas slot kunjungan lebih leluasa.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+              <span class="plan-status font-extrabold text-[#facc15]">&#10003; Paket Terpilih</span>
+              <span class="text-[#10b981] font-extrabold">Hemat hingga 28%</span>
+            </div>
+          </div>
+
+          <!-- Paket Platinum: Priority & Express Care -->
+          <div
+            role="button"
+            tabindex="0"
+            data-plan="platinum"
+            data-plan-label="Paket Platinum — Priority & Express Care (Rp 799.000/bulan)"
+            aria-pressed="false"
+            class="plan-card rounded-3xl bg-white border border-[#e2e8f0] hover:border-[#1a66ff] p-6 sm:p-7 shadow-card flex flex-col justify-between cursor-pointer transition text-left"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full bg-emerald-50 text-[#10b981] border border-emerald-200 text-xs font-extrabold">
+                  Priority &amp; Express Care
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-[#0f172a] text-[11px] font-extrabold">
+                  Hemat hingga 35%
+                </span>
+              </div>
+              <h3 class="text-xl font-extrabold text-[#0f172a]">
+                Paket Platinum
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Respons cepat, multi-unit &amp; perawatan menyeluruh</p>
+
+              <div class="mt-4 pb-4 border-b border-slate-100">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-2xl sm:text-3xl font-extrabold text-[#0f172a]">Rp 799.000</span>
+                  <span class="text-xs text-slate-500 font-semibold">/ bulan</span>
+                </div>
+                <span class="block text-[11px] text-slate-400 mt-0.5">Setara Rp 9.588.000 / tahun</span>
+              </div>
+
+              <ul class="mt-5 space-y-3 text-xs sm:text-sm text-slate-700">
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>Semua manfaat Paket Gold</strong> + dukungan <strong>multi-unit AC</strong>, pipa/kran mampet, dan pertukangan ringan.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>Priority &amp; Express Care</strong> untuk penanganan cepat saat ada kebutuhan mendesak di rumah.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span>
+                  <span><strong>Teknisi Dedikasi &amp; Terverifikasi</strong> dengan pendampingan koordinasi penuh.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="plan-status font-bold text-slate-500">Klik untuk pilih paket</span>
+              <span class="text-[#10b981] font-extrabold">Perlindungan Maksimal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Baris Konfirmasi Paket Terpilih -->
+        <div class="mt-8 rounded-2xl bg-[#f4f8ff] border border-blue-200 px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#10b981]"></span>
+            <span id="selected-plan-banner" class="font-extrabold text-[#0f172a]">
+              Paket Langganan Aktif: Paket Gold — Home Care Bundle (Rp 499.000/bulan)
+            </span>
+          </div>
+          <span id="selected-plan-annual" class="font-bold text-[#1a66ff]">
+            Nilai Tahunan: Rp 5.988.000 / tahun
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. KALKULATOR PENGHEMATAN BULANAN & TAHUNAN (SATUAN VS. LANGGANAN) -->
+    <section id="kalkulator-hemat" class="py-16 sm:py-20 bg-[#f4f8ff] border-b border-[#e2e8f0] scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-10">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-[#0f172a] text-white text-xs font-extrabold uppercase tracking-wide mb-3">
+            Kalkulator Nilai Jangka Panjang
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f172a]">
+            Simulasi Penghematan Bulanan &amp; Tahunan: Pesan Satuan vs. Paket Langganan
+          </h2>
+          <p class="mt-2.5 text-sm sm:text-base text-slate-600">
+            Geser kontrol jumlah kunjungan pembersihan rumah serta layanan perawatan AC, perbaikan pipa/kran mampet, atau pertukangan ringan untuk melihat perbandingan biaya bulanan dan tahunan.
+          </p>
+        </div>
+
+        <div class="rounded-3xl bg-white border border-[#e2e8f0] p-6 sm:p-8 shadow-soft">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Kontrol Slider -->
+            <div class="lg:col-span-7 space-y-6">
+              <!-- Slider 1: Pembersihan Rumah -->
+              <div>
+                <div class="flex items-center justify-between text-xs sm:text-sm font-bold text-[#0f172a] mb-2">
+                  <label for="slider-cleaning">Kunjungan Pembersihan Rumah per Bulan (Acuan Rp 120.000/kunjungan)</label>
+                  <span id="label-cleaning" class="px-3 py-1 rounded-lg bg-[#f4f8ff] border border-blue-200 text-[#1a66ff] font-extrabold shrink-0 ml-2">
+                    4x / bulan
+                  </span>
+                </div>
+                <input type="range" id="slider-cleaning" min="2" max="8" step="1" value="4" class="w-full" />
+                <div class="flex justify-between text-[11px] text-slate-400 font-semibold mt-1">
+                  <span>2x / bln</span>
+                  <span>4x / bln</span>
+                  <span>6x / bln</span>
+                  <span>8x / bln</span>
+                </div>
+              </div>
+
+              <!-- Slider 2: Perawatan AC, Pipa/Kran Mampet & Pertukangan Ringan -->
+              <div>
+                <div class="flex items-center justify-between text-xs sm:text-sm font-bold text-[#0f172a] mb-2">
+                  <label for="slider-technical">Layanan AC, Pipa/Kran Mampet &amp; Pertukangan Ringan / Bulan (Acuan Rp 125.000/layanan)</label>
+                  <span id="label-technical" class="px-3 py-1 rounded-lg bg-[#f4f8ff] border border-blue-200 text-[#1a66ff] font-extrabold shrink-0 ml-2">
+                    2x / bulan
+                  </span>
+                </div>
+                <input type="range" id="slider-technical" min="0" max="6" step="1" value="2" class="w-full" />
+                <div class="flex justify-between text-[11px] text-slate-400 font-semibold mt-1">
+                  <span>0x / bln</span>
+                  <span>2x / bln</span>
+                  <span>4x / bln</span>
+                  <span>6x / bln</span>
+                </div>
+              </div>
+
+              <!-- Ringkasan Perbandingan Angka -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div class="rounded-2xl bg-[#f4f8ff] border border-blue-100 p-4">
+                  <span class="block text-xs font-bold text-slate-500">Total Pesan Satuan (Bulanan)</span>
+                  <span id="sim-single-monthly" class="text-lg sm:text-xl font-extrabold text-slate-600 line-through mt-1 block">
+                    Rp 730.000 / bln
+                  </span>
+                  <span id="sim-single-annual" class="text-xs text-slate-500 mt-0.5 block">
+                    Tahunan satuan: Rp 8.760.000 / thn
+                  </span>
+                </div>
+
+                <div class="rounded-2xl bg-emerald-50/80 border border-emerald-200 p-4">
+                  <span class="block text-xs font-bold text-[#10b981]">Biaya Paket Langganan</span>
+                  <span id="sim-plan-monthly" class="text-lg sm:text-xl font-extrabold text-[#0f172a] mt-1 block">
+                    Rp 499.000 / bln
+                  </span>
+                  <span id="sim-plan-annual" class="text-xs font-semibold text-slate-600 mt-0.5 block">
+                    Tahunan paket: Rp 5.988.000 / thn
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel Highlight Penghematan -->
+            <div class="lg:col-span-5 rounded-3xl bg-[#0f172a] text-white p-6 sm:p-7 space-y-4">
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-3 py-1 rounded-full bg-[#facc15] text-[#0f172a] text-xs font-extrabold">
+                  REKOMENDASI OTOMATIS
+                </span>
+                <span id="sim-recommended-badge" class="text-xs font-bold text-[#facc15]">
+                  Paket Gold
+                </span>
+              </div>
+
+              <div>
+                <span class="text-xs text-slate-300 block">Estimasi Hemat Bulanan</span>
+                <span id="sim-save-monthly" class="text-2xl sm:text-3xl font-extrabold text-[#10b981] mt-0.5 block">
+                  Hemat Rp 231.000 / bln
+                </span>
+              </div>
+
+              <div class="pt-3 border-t border-slate-800">
+                <span class="text-xs text-slate-300 block">Estimasi Hemat Tahunan (12 Bulan)</span>
+                <span id="sim-save-annual" class="text-xl sm:text-2xl font-extrabold text-[#facc15] mt-0.5 block">
+                  Hemat Rp 2.772.000 / tahun
+                </span>
+              </div>
+
+              <p id="sim-note" class="text-xs text-slate-300 leading-relaxed pt-1">
+                Paket Gold menggabungkan pembersihan rutin dengan perawatan AC atau perbaikan pipa/kran mampet &amp; pertukangan ringan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. RINCIAN PRIORITAS JADWAL, TEKNISI & BENEFIT BUNDLING -->
+    <section id="keunggulan-bundling" class="py-16 sm:py-20 bg-white scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-10">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-[#f4f8ff] border border-blue-200 text-[#1a66ff] text-xs font-extrabold uppercase tracking-wider mb-3">
+            Benefit Eksklusif Profit Maximizer
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f172a]">
+            Rincian Prioritas Jadwal, Teknisi Terverifikasi &amp; Bundling Layanan
+          </h2>
+          <p class="mt-2.5 text-sm sm:text-base text-slate-600">
+            Dirancang untuk menjaga nilai hunian sekaligus memberikan kemudahan operasional bagi keluarga yang membutuhkan layanan rumah tangga berulang.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Pilar 1: Prioritas Jadwal -->
+          <div class="rounded-3xl bg-white border border-[#e2e8f0] p-6 shadow-card">
+            <div class="w-11 h-11 rounded-xl bg-[#f4f8ff] border border-blue-200 text-[#1a66ff] flex items-center justify-center mb-4 font-extrabold text-sm">
+              01
+            </div>
+            <h3 class="text-lg font-extrabold text-[#0f172a]">
+              Prioritas Jadwal &amp; Express Care
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Pelanggan paket berlangganan mendapatkan alokasi waktu prioritas untuk pemeliharaan berkala dan percepatan koordinasi saat terjadi kebocoran pipa/kran mampet atau gangguan AC.
+            </p>
+          </div>
+
+          <!-- Pilar 2: Teknisi Dedikasi & Terverifikasi -->
+          <div class="rounded-3xl bg-white border border-[#e2e8f0] p-6 shadow-card">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-200 text-[#10b981] flex items-center justify-center mb-4 font-extrabold text-sm">
+              02
+            </div>
+            <h3 class="text-lg font-extrabold text-[#0f172a]">
+              Teknisi Dedikasi &amp; Terverifikasi Admin
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Setiap mitra telah melewati verifikasi Admin SIPJasa dan membantu menjaga konsistensi kualitas pengerjaan dari kunjungan ke kunjungan.
+            </p>
+          </div>
+
+          <!-- Pilar 3: Bundling Multi-Layanan -->
+          <div class="rounded-3xl bg-white border border-[#e2e8f0] p-6 shadow-card">
+            <div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-200 text-[#eab308] flex items-center justify-center mb-4 font-extrabold text-sm">
+              03
+            </div>
+            <h3 class="text-lg font-extrabold text-[#0f172a]">
+              Bundling Multi-Layanan Transparan
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Mencakup perawatan AC, pembersihan rumah, perbaikan pipa/kran mampet, dan pertukangan ringan. Jika diperlukan suku cadang atau material tambahan, biayanya diinformasikan jelas sebelum dikerjakan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 6. FOOTER -->
+  <footer class="bg-[#f4f8ff] border-t border-[#e2e8f0] py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-600">
+      <div class="flex items-center gap-2.5">
+        <span class="font-extrabold text-base">
+          <span class="text-[#0f172a]">SIP</span><span class="text-[#1a66ff]">Jasa</span>
+        </span>
+        <span class="text-slate-300">|</span>
+        <span>Platform Jasa Rumah Tangga Terverifikasi</span>
+      </div>
+      <p class="font-medium text-slate-600">
+        &copy; 2026 SIPJasa. Hubungkan Kebutuhan, Temukan Solusinya.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // =========================================================================
+    // 1. PEMILIH PAKET INTERAKTIF DI HERO & BAGIAN VALUE LADDER
+    // =========================================================================
+    const profitPlans = {
+      silver: {
+        badge: 'Routine Maintenance Plan • Pembersihan Rutin',
+        title: 'Paket Silver',
+        price: 'Rp 399.000',
+        annualText: 'Nilai Tahunan: Rp 4.788.000 / tahun',
+        savingsNote: 'Estimasi Hemat hingga Rp 960.000 / tahun',
+        banner: 'Paket Langganan Aktif: Paket Silver — Routine Maintenance Plan (Rp 399.000/bulan)',
+        perks: [
+          '<strong>4x Pembersihan Rumah</strong> rutin terjadwal (1x setiap minggu) untuk hunian tetap bersih.',
+          '<strong>Routine Maintenance Plan</strong> dengan jadwal pemeliharaan berkala yang teratur.',
+          '<strong>Prioritas Jadwal</strong> &amp; mitra terverifikasi identitas oleh Admin SIPJasa.'
+        ]
+      },
+      gold: {
+        badge: 'Home Care Bundle • Paling Populer',
+        title: 'Paket Gold',
+        price: 'Rp 499.000',
+        annualText: 'Nilai Tahunan: Rp 5.988.000 / tahun',
+        savingsNote: 'Estimasi Hemat hingga Rp 2.772.000 / tahun',
+        banner: 'Paket Langganan Aktif: Paket Gold — Home Care Bundle (Rp 499.000/bulan)',
+        perks: [
+          '<strong>4x Pembersihan Rumah</strong> rutin + <strong>1x Perawatan AC atau Perbaikan Pipa/Kran Mampet</strong> per bulan.',
+          '<strong>Bundling Multi-Layanan</strong> (kebersihan, AC, pipa/kran mampet, dan pertukangan ringan).',
+          '<strong>Prioritas Jadwal</strong> &amp; teknisi terverifikasi Admin SIPJasa.'
+        ]
+      },
+      platinum: {
+        badge: 'Priority & Express Care • Multi-Layanan Penuh',
+        title: 'Paket Platinum',
+        price: 'Rp 799.000',
+        annualText: 'Nilai Tahunan: Rp 9.588.000 / tahun',
+        savingsNote: 'Estimasi Hemat hingga Rp 4.200.000 / tahun',
+        banner: 'Paket Langganan Aktif: Paket Platinum — Priority & Express Care (Rp 799.000/bulan)',
+        perks: [
+          '<strong>Semua manfaat Paket Gold</strong> + dukungan <strong>multi-unit AC</strong>, pipa/kran mampet, dan pertukangan ringan.',
+          '<strong>Priority &amp; Express Care</strong> untuk respons jadwal lebih cepat saat dibutuhkan.',
+          '<strong>Teknisi Dedikasi &amp; Terverifikasi</strong> dengan perlindungan bundling menyeluruh.'
+        ]
+      }
+    };
+
+    const heroBtns = document.querySelectorAll('.hero-tier-btn');
+    const heroBadge = document.getElementById('hero-tier-badge');
+    const heroTitle = document.getElementById('hero-tier-title');
+    const heroPrice = document.getElementById('hero-tier-price');
+    const heroPerks = document.getElementById('hero-tier-perks');
+    const heroSavings = document.getElementById('hero-tier-savings');
+
+    const planCards = document.querySelectorAll('.plan-card');
+    const selectedPlanBanner = document.getElementById('selected-plan-banner');
+    const selectedPlanAnnual = document.getElementById('selected-plan-annual');
+
+    function syncSelectedPlan(planKey) {
+      const data = profitPlans[planKey];
+      if (!data) return;
+
+      // Sinkronkan tombol tab di Hero
+      heroBtns.forEach((btn) => {
+        const isSelected = btn.getAttribute('data-hero-tier') === planKey;
+        const sub = btn.querySelector('span');
+        btn.setAttribute('aria-selected', String(isSelected));
+        if (isSelected) {
+          btn.className = 'hero-tier-btn px-2.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#1a66ff] text-white border border-[#1a66ff] shadow-2xs transition cursor-pointer text-center';
+          if (sub) sub.className = 'text-[11px] font-semibold opacity-95';
+        } else {
+          btn.className = 'hero-tier-btn px-2.5 py-2.5 rounded-xl text-xs font-bold bg-[#f4f8ff] text-[#0f172a] border border-[#e2e8f0] hover:border-[#1a66ff] transition cursor-pointer text-center';
+          if (sub) sub.className = 'text-[11px] font-semibold text-slate-500';
+        }
+      });
+
+      // Perbarui kartu pratinjau di Hero
+      if (heroBadge) heroBadge.textContent = data.badge;
+      if (heroTitle) heroTitle.textContent = data.title;
+      if (heroPrice) heroPrice.textContent = data.price;
+      if (heroSavings) heroSavings.textContent = data.savingsNote;
+      if (heroPerks) {
+        heroPerks.innerHTML = data.perks
+          .map(
+            (item) =>
+              `<li class="flex items-start gap-2"><span class="text-[#10b981] font-extrabold mt-0.5">&#10003;</span><span>${item}</span></li>`
+          )
+          .join('');
+      }
+
+      // Sinkronkan kartu Value Ladder
+      planCards.forEach((card) => {
+        const isCurrent = card.getAttribute('data-plan') === planKey;
+        const isGold = card.getAttribute('data-plan') === 'gold';
+        const statusEl = card.querySelector('.plan-status');
+        card.setAttribute('aria-pressed', String(isCurrent));
+
+        if (isGold) {
+          card.className = `plan-card rounded-3xl bg-[#0f172a] text-white border-2 ${isCurrent ? 'border-[#facc15] ring-4 ring-yellow-400/25' : 'border-slate-700'} p-6 sm:p-7 shadow-soft flex flex-col justify-between cursor-pointer transition text-left relative`;
+          if (statusEl) {
+            statusEl.textContent = isCurrent ? '✓ Paket Terpilih' : 'Klik untuk pilih paket';
+            statusEl.className = isCurrent ? 'plan-status font-extrabold text-[#facc15]' : 'plan-status font-bold text-slate-300';
+          }
+        } else {
+          card.className = `plan-card rounded-3xl bg-white ${isCurrent ? 'border-2 border-[#1a66ff] ring-4 ring-blue-500/15' : 'border border-[#e2e8f0] hover:border-[#1a66ff]'} p-6 sm:p-7 shadow-card flex flex-col justify-between cursor-pointer transition text-left`;
+          if (statusEl) {
+            statusEl.textContent = isCurrent ? '✓ Paket Terpilih' : 'Klik untuk pilih paket';
+            statusEl.className = isCurrent ? 'plan-status font-extrabold text-[#1a66ff]' : 'plan-status font-bold text-slate-500';
+          }
+        }
+      });
+
+      if (selectedPlanBanner) selectedPlanBanner.textContent = data.banner;
+      if (selectedPlanAnnual) selectedPlanAnnual.textContent = data.annualText;
+    }
+
+    heroBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        syncSelectedPlan(btn.getAttribute('data-hero-tier'));
+      });
+    });
+
+    planCards.forEach((card) => {
+      const handleSelect = () => syncSelectedPlan(card.getAttribute('data-plan'));
+      card.addEventListener('click', handleSelect);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleSelect();
+        }
+      });
+    });
+
+    // =========================================================================
+    // 2. KALKULATOR PENGHEMATAN BULANAN & TAHUNAN
+    // =========================================================================
+    const sliderCleaning = document.getElementById('slider-cleaning');
+    const sliderTechnical = document.getElementById('slider-technical');
+    const labelCleaning = document.getElementById('label-cleaning');
+    const labelTechnical = document.getElementById('label-technical');
+    const simSingleMonthly = document.getElementById('sim-single-monthly');
+    const simSingleAnnual = document.getElementById('sim-single-annual');
+    const simPlanMonthly = document.getElementById('sim-plan-monthly');
+    const simPlanAnnual = document.getElementById('sim-plan-annual');
+    const simRecommendedBadge = document.getElementById('sim-recommended-badge');
+    const simSaveMonthly = document.getElementById('sim-save-monthly');
+    const simSaveAnnual = document.getElementById('sim-save-annual');
+    const simNote = document.getElementById('sim-note');
+
+    function formatIdr(amount) {
+      return 'Rp ' + Math.round(amount).toLocaleString('id-ID');
+    }
+
+    function calculateProfitMaximizer() {
+      if (!sliderCleaning || !sliderTechnical) return;
+
+      const cleaningVisits = parseInt(sliderCleaning.value, 10);
+      const technicalVisits = parseInt(sliderTechnical.value, 10);
+
+      labelCleaning.textContent = `${cleaningVisits}x / bulan`;
+      labelTechnical.textContent = `${technicalVisits}x / bulan`;
+
+      // Tarif satuan referensi: pembersihan Rp120.000, teknis (AC / pipa / pertukangan) Rp125.000
+      const singleMonthly = cleaningVisits * 120000 + technicalVisits * 125000;
+      const singleAnnual = singleMonthly * 12;
+
+      let planName = 'Paket Silver';
+      let planMonthly = 399000;
+      let noteText = 'Paket Silver cocok untuk pemeliharaan kebersihan rumah terjadwal setiap minggu.';
+
+      if (cleaningVisits >= 6 || technicalVisits >= 4) {
+        planName = 'Paket Platinum';
+        planMonthly = 799000;
+        noteText = 'Paket Platinum mengoptimalkan kebutuhan multi-unit AC, pipa/kran mampet, pertukangan ringan, dan prioritas jadwal.';
+      } else if (cleaningVisits >= 4 || technicalVisits >= 1) {
+        planName = 'Paket Gold';
+        planMonthly = 499000;
+        noteText = 'Paket Gold menggabungkan pembersihan rutin dengan perawatan AC atau perbaikan pipa/kran mampet & pertukangan ringan.';
+      }
+
+      const planAnnual = planMonthly * 12;
+      const monthlyDiff = singleMonthly - planMonthly;
+      const annualDiff = singleAnnual - planAnnual;
+
+      simSingleMonthly.textContent = `${formatIdr(singleMonthly)} / bln`;
+      simSingleAnnual.textContent = `Tahunan satuan: ${formatIdr(singleAnnual)} / thn`;
+      simPlanMonthly.textContent = `${formatIdr(planMonthly)} / bln`;
+      simPlanAnnual.textContent = `Tahunan paket: ${formatIdr(planAnnual)} / thn`;
+      simRecommendedBadge.textContent = `${planName} (${formatIdr(planMonthly)}/bln)`;
+
+      if (monthlyDiff > 0) {
+        simSaveMonthly.textContent = `Hemat ${formatIdr(monthlyDiff)} / bln`;
+        simSaveAnnual.textContent = `Hemat ${formatIdr(annualDiff)} / tahun`;
+      } else {
+        const estimatedBundleValue = Math.round(planMonthly * 0.2);
+        simSaveMonthly.textContent = `Nilai Bundling Hemat ~${formatIdr(estimatedBundleValue)} / bln`;
+        simSaveAnnual.textContent = `Nilai Bundling Hemat ~${formatIdr(estimatedBundleValue * 12)} / tahun`;
+      }
+
+      simNote.textContent = noteText;
+    }
+
+    if (sliderCleaning && sliderTechnical) {
+      sliderCleaning.addEventListener('input', calculateProfitMaximizer);
+      sliderTechnical.addEventListener('input', calculateProfitMaximizer);
+      calculateProfitMaximizer();
+    }
+  </script>
+</body>
+</html>
